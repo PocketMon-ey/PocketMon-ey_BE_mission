@@ -27,14 +27,14 @@
                 DATE_FORMAT(createDate, '%y.%m.%d') AS createDate,
                 DATE_FORMAT(doneDate, '%y.%m.%d') AS doneDate
 			from missionDB.Mission
-			WHERE childId = #{id} and status = #{status}
-            <if test="status = 2">
-                or status = 3
+			WHERE childId = #{id}
+            <if test="status == 0 or status == 1">
+                and status = #{status}
             </if>
-            <if test="status = 3">
-                or status = 2
+            <if test="status == 2 or status == 3">
+                and status > 1
             </if>
-            ORDER BY id DESC;
+            ORDER BY createDate, id DESC;
 	</select>
 	<update id="updateStatusS" parameterType="int">
         update missionDB.Mission

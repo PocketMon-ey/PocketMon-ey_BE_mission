@@ -42,9 +42,10 @@ public class MissionServiceImpl implements MissionService {
     public Mission insertMission(Mission mission) throws Exception {
         missionDao.insertMission(mission);
         StatusParam statusParam = new StatusParam();
-        statusParam.setId(mission.getId());
+        statusParam.setId(mission.getChildId());
         statusParam.setStatus(0);
-        return missionDao.selecAllMissions(statusParam).get(0);
+        Mission returMission = missionDao.selecAllMissions(statusParam).get(0);
+        return returMission;
     }
     
 }

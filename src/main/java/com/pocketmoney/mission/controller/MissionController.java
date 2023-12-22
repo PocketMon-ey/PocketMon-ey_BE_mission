@@ -38,6 +38,8 @@ public class MissionController {
 		statusParam.setId(childId);
 		if (status != null) {
 			statusParam.setStatus(status);
+		}else{
+			status = 0;
 		}
 		List<Mission> missions = missionService.selecAllMissions(statusParam);
 		return new ResponseEntity<List<Mission>>(missions, HttpStatus.OK);
