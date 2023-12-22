@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.pocketmoney.mission.dao.MissionDao;
 import com.pocketmoney.mission.dto.MissionDto;
 import com.pocketmoney.mission.dto.MissionIdDto;
+import com.pocketmoney.mission.dto.RejectDto;
 import com.pocketmoney.mission.dto.StatusDto;
 import com.pocketmoney.mission.model.Mission;
 import com.pocketmoney.mission.util.WebClientService;
@@ -47,9 +48,9 @@ public class MissionServiceImpl implements MissionService {
         return mission;
     }
     @Override
-    public Mission updateStatusF(MissionIdDto missionIdDto) throws Exception {
-        missionDao.updateStatusF(missionIdDto);
-        return missionDao.selectMission(missionIdDto.getId());
+    public Mission updateStatusF(RejectDto rejectDto) throws Exception {
+        missionDao.updateStatusF(rejectDto);
+        return missionDao.selectMission(rejectDto.getId());
     }
 
     @Override

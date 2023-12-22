@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.pocketmoney.mission.Service.MissionService;
 import com.pocketmoney.mission.dto.MissionDto;
 import com.pocketmoney.mission.dto.MissionIdDto;
+import com.pocketmoney.mission.dto.RejectDto;
 import com.pocketmoney.mission.dto.StatusDto;
 import com.pocketmoney.mission.model.Mission;
 
@@ -77,8 +78,8 @@ public class MissionController {
 
 	@ApiOperation(value = "미션 완료 거절")
 	@PutMapping(value = "/fail")
-	public ResponseEntity<Mission> fail(@RequestBody MissionIdDto missionIdDto) throws Exception {
-		Mission mission = missionService.updateStatusF(missionIdDto);
+	public ResponseEntity<Mission> fail(@RequestBody RejectDto rejectDto) throws Exception {
+		Mission mission = missionService.updateStatusF(rejectDto);
 		return new ResponseEntity<Mission>(mission, HttpStatus.OK);
 	}
 }

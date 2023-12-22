@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.pocketmoney.mission.dto.MissionDto;
 import com.pocketmoney.mission.dto.MissionIdDto;
+import com.pocketmoney.mission.dto.RejectDto;
 import com.pocketmoney.mission.dto.StatusDto;
 import com.pocketmoney.mission.model.*;
 
@@ -16,5 +17,5 @@ public interface MissionService {
     Mission insertMission(MissionDto missionDto) throws Exception;
     Mission updateStatusS(MissionIdDto missionIdDto) throws Exception;
     Mission updateStatusA(MissionIdDto missionIdDto) throws Exception;
-    Mission updateStatusF(MissionIdDto missionIdDto) throws Exception;
+    Mission updateStatusF(RejectDto rejectDto) throws Exception;
 }

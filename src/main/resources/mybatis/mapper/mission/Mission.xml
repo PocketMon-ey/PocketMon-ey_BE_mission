@@ -12,6 +12,7 @@
                 reward,
                 status,
                 childId,
+                rejectReason,
                 DATE_FORMAT(createDate, '%y.%m.%d') AS createDate,
                 DATE_FORMAT(doneDate, '%y.%m.%d') AS doneDate
 			from missionDB.Mission
@@ -36,17 +37,17 @@
             </if>
             ORDER BY createDate DESC, id DESC;
 	</select>
-	<update id="updateStatusS" parameterType="com.pocketmoney.mission.dto.MissionIdDto">
+	<update id="updateStatusS" parameterType="com.pocketmoney.mission.dto.StatusDto">
         update missionDB.Mission
             set status = 1
         where id = #{id};
     </update>
-    <update id="updateStatusF" parameterType="com.pocketmoney.mission.dto.MissionIdDto">
+    <update id="updateStatusF" parameterType="com.pocketmoney.mission.dto.RejectDto">
         update missionDB.Mission
-            set status = 3, doneDate = CURDATE()
+            set status = 3, doneDate = CURDATE(), rejectReason = #{rejectReason}
         where id = #{id};
     </update>
-    <update id="updateStatusA" parameterType="com.pocketmoney.mission.dto.MissionIdDto">
+    <update id="updateStatusA" parameterType="com.pocketmoney.mission.dto.StatusDto">
         update missionDB.Mission
             set status = 2, doneDate = CURDATE()
         where id = #{id};
