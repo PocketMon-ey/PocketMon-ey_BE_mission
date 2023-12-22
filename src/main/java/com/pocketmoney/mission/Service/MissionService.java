@@ -8,8 +8,10 @@ import com.pocketmoney.mission.model.*;
 
 @Service
 public interface MissionService {
-    List<Mission> selecAllMissions(Integer status) throws Exception;
+    List<Mission> selecAllMissions(StatusParam statusParam) throws Exception;
     Mission selectMission(int missionId) throws Exception;
     Mission insertMission(Mission mission) throws Exception;
-    int updateStatus(StatusParam statusParam) throws Exception;
+    int updateStatusS(int id) throws Exception;
+    int updateStatusA(int id) throws Exception;
+    int updateStatusF(int id) throws Exception;
 }

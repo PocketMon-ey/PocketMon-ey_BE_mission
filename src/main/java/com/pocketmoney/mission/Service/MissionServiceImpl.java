@@ -16,8 +16,8 @@ public class MissionServiceImpl implements MissionService {
     MissionDao missionDao;
 
     @Override
-    public List<Mission> selecAllMissions(Integer status) throws Exception {
-        return missionDao.selecAllMissions(status);
+    public List<Mission> selecAllMissions(StatusParam statusParam) throws Exception {
+        return missionDao.selecAllMissions(statusParam);
     }
 
     @Override
@@ -26,14 +26,25 @@ public class MissionServiceImpl implements MissionService {
     }
 
     @Override
-    public int updateStatus(StatusParam statusParam) throws Exception {
-        return missionDao.updateStatus(statusParam);
+    public int updateStatusS(int id) throws Exception {
+        return missionDao.updateStatusS(id);
+    }
+    @Override
+    public int updateStatusA(int id) throws Exception {
+        return missionDao.updateStatusA(id);
+    }
+    @Override
+    public int updateStatusF(int id) throws Exception {
+        return missionDao.updateStatusF(id);
     }
 
     @Override
     public Mission insertMission(Mission mission) throws Exception {
         missionDao.insertMission(mission);
-        return missionDao.selecAllMissions(0).get(0);
+        StatusParam statusParam = new StatusParam();
+        statusParam.setId(mission.getId());
+        statusParam.setStatus(0);
+        return missionDao.selecAllMissions(statusParam).get(0);
     }
     
 }

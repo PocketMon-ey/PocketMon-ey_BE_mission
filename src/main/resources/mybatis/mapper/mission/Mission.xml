@@ -3,46 +3,52 @@
 <mapper namespace="com.pocketmoney.mission.dao.MissionDao">
 	<insert id="insertMission" parameterType="com.pocketmoney.mission.model.Mission">
         insert into missionDB.Mission
-        (name, reward, childId, createDate) value (#{name}, #{reward}, #{childId}, #{createDate});
+        (name, reward, childId) value (#{name}, #{reward}, #{childId});
     </insert>
-    <select id="selectMission" resultType="com.pocketmoney.mission.model.Mission">
+    <select id="selectMission" parameterType="int" resultType="com.pocketmoney.mission.model.Mission">
 			select
 				id,
                 name,
                 reward,
                 status,
                 childId,
-                createDate,
-                doneDate
+                DATE_FORMAT(createDate, '%y.%m.%d') AS createDate,
+                DATE_FORMAT(doneDate, '%y.%m.%d') AS doneDate
 			from missionDB.Mission
             where id = #{id};
 	</select>
-    <select id="selecAllMissions" resultType="com.pocketmoney.mission.model.Mission">
+    <select id="selecAllMissions" parameterType="com.pocketmoney.mission.model.StatusParam" resultType="com.pocketmoney.mission.model.Mission">
 			select
 				id,
                 name,
                 reward,
                 status,
                 childId,
-                createDate,
-                doneDate
+                DATE_FORMAT(createDate, '%y.%m.%d') AS createDate,
+                DATE_FORMAT(doneDate, '%y.%m.%d') AS doneDate
 			from missionDB.Mission
-            <if test="status = 0 or status = 1">
-			    WHERE status = #{status};
-		    </if>
-            <if test="status = 2 or status = 3">
-			    WHERE status = 2 or status = 3;
-		    </if>
+			WHERE childId = #{id} and status = #{status}
+            <if test="status = 2">
+                or status = 3
+            </if>
+            <if test="status = 3">
+                or status = 2
+            </if>
             ORDER BY id DESC;
 	</select>
-	<update id="updateStatus" parameterType="com.pocketmoney.mission.model.StatusParam">
-        update missionDB.Mission set status=#{status}
-        <if test="status = 0">
-            set status=#{status}
-        </if>
-        <if test="status=2 or status=3">
-            set status=#{status}, doneDate = now
-        </if>
-        where id=#{id};
+	<update id="updateStatusS" parameterType="int">
+        update missionDB.Mission
+            set status = 1
+        where id = #{id};
+    </update>
+    <update id="updateStatusF" parameterType="int">
+        update missionDB.Mission
+            set status = 3, doneDate = CURDATE()
+        where id = #{id};
+    </update>
+    <update id="updateStatusA" parameterType="int">
+        update missionDB.Mission
+            set status = 2, doneDate = CURDATE()
+        where id = #{id};
     </update>
 </mapper>

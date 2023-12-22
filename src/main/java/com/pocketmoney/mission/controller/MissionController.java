@@ -32,12 +32,14 @@ public class MissionController {
 	private MissionService missionService;
 
 	@ApiOperation(value = "전체 미션 조회")
-	@GetMapping(value={"/list/{status}", "/list"})
-	public ResponseEntity<List<Mission>> getAllMissions(@PathVariable(required = false) Integer status) throws Exception {
-		if (status == null) {
-			status = 0;
+	@GetMapping(value={"/list/{childId}/{status}", "/list/{childId}"})
+	public ResponseEntity<List<Mission>> getAllMissions(@PathVariable int childId, @PathVariable(required = false) Integer status) throws Exception {
+		StatusParam statusParam = new StatusParam();
+		statusParam.setId(childId);
+		if (status != null) {
+			statusParam.setStatus(status);
 		}
-		List<Mission> missions = missionService.selecAllMissions(status);
+		List<Mission> missions = missionService.selecAllMissions(statusParam);
 		return new ResponseEntity<List<Mission>>(missions, HttpStatus.OK);
 	}
 
@@ -58,8 +60,7 @@ public class MissionController {
 	@ApiOperation(value = "미션 완료 요청")
 	@PutMapping(value = "/success/{id}")
 	public ResponseEntity<Integer> succcess(@PathVariable int id) throws Exception {
-		StatusParam statusParam = new StatusParam(id, 1);
-		int res = missionService.updateStatus(statusParam);
+		int res = missionService.updateStatusS(id);
 		if (res == 0) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -69,8 +70,7 @@ public class MissionController {
 	@ApiOperation(value = "미션 완료 승인")
 	@PutMapping(value = "/approve/{id}")
 	public ResponseEntity<Integer> approve(@PathVariable int id) throws Exception {
-		StatusParam statusParam = new StatusParam(id, 2);
-		int res = missionService.updateStatus(statusParam);
+		int res = missionService.updateStatusA(id);
 		if (res == 0) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -80,8 +80,7 @@ public class MissionController {
 	@ApiOperation(value = "미션 완료 거절")
 	@PutMapping(value = "/fail/{id}")
 	public ResponseEntity<Integer> fail(@PathVariable int id) throws Exception {
-		StatusParam statusParam = new StatusParam(id, 3);
-		int res = missionService.updateStatus(statusParam);
+		int res = missionService.updateStatusF(id);
 		if (res == 0) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
