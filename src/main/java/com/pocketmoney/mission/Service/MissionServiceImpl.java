@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.pocketmoney.mission.dao.MissionDao;
 import com.pocketmoney.mission.model.Mission;
 import com.pocketmoney.mission.model.StatusParam;
+import com.pocketmoney.mission.util.WebClientService;
 
 @Service
 public class MissionServiceImpl implements MissionService {
@@ -31,6 +32,14 @@ public class MissionServiceImpl implements MissionService {
     }
     @Override
     public int updateStatusA(int id) throws Exception {
+        WebClientService wcs = new WebClientService();
+        Mission mission = missionDao.selectMission(id);
+        int childId = mission.getChildId();
+		int parentId = wcs.getParentId(childId);
+        int price = mission.getReward();
+        System.out.println("**********************************************************************"+parentId);
+		wcs.sendMoney(parentId, childId, price);
+        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+price);
         return missionDao.updateStatusA(id);
     }
     @Override
