@@ -3,7 +3,7 @@
 <mapper namespace="com.pocketmoney.mission.dao.MissionDao">
 	<insert id="insertMission" parameterType="com.pocketmoney.mission.model.Mission">
         insert into missionDB.Mission
-        (name, reward, childId) value (#{name}, #{reward}, #{childId});
+        (name, reward, childId, createDate) value (#{name}, #{reward}, #{childId}, #{createDate});
     </insert>
     <select id="selectMission" resultType="com.pocketmoney.mission.model.Mission">
 			select
@@ -11,7 +11,9 @@
                 name,
                 reward,
                 status,
-                childId
+                childId,
+                createDate,
+                doneDate
 			from missionDB.Mission
             where id = #{id};
 	</select>
@@ -21,7 +23,9 @@
                 name,
                 reward,
                 status,
-                childId
+                childId,
+                createDate,
+                doneDate
 			from missionDB.Mission
             <if test="status = 0 or status = 1">
 			    WHERE status = #{status};
@@ -33,6 +37,12 @@
 	</select>
 	<update id="updateStatus" parameterType="com.pocketmoney.mission.model.StatusParam">
         update missionDB.Mission set status=#{status}
+        <if test="status = 0">
+            set status=#{status}
+        </if>
+        <if test="status=2 or status=3">
+            set status=#{status}, doneDate = now
+        </if>
         where id=#{id};
     </update>
 </mapper>

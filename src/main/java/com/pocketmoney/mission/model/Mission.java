@@ -9,4 +9,6 @@ public class Mission {
 	private int reward;
 	private int status;
 	private int childId;
+	private String createDate;
+	private String doneDate;
 }
