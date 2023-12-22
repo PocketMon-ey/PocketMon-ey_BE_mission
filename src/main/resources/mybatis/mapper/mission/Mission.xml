@@ -34,7 +34,7 @@
             <if test="status == 2 or status == 3">
                 and status > 1
             </if>
-            ORDER BY createDate, id DESC;
+            ORDER BY createDate DESC, id DESC;
 	</select>
 	<update id="updateStatusS" parameterType="int">
         update missionDB.Mission
