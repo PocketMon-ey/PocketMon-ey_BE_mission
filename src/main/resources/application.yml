@@ -1,0 +1,24 @@
+server:
+  port: 10004
+  servlet: 
+    context-path: ${SERVLET_CONTEXT_PATH:/}
+
+spring:
+  application:
+    name: mission
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_SERVER:165.192.105.57}:${DB_PORT:30523}/${DB_NAME:loanDB}?useUnicode=true&characterEncoding=utf-8
+    username: ${DB_USERNAME:this4}
+    password: ${DB_PASSWORD:this44}
+    hikari:
+      connection-timeout: 5000
+      validation-timeout: 1000
+      maximum-pool-size: 30
+      minimum-idle: 2
+      connection-test-query: SELECT 1  
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*/*.xml
+  configuration:
+    map-underscore-to-camel-case: false

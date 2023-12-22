@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mission
+  labels:
+    app: mission
+spec:
+  selector:
+    matchLabels:
+      app: mission
+  replicas: 1
+  template:
+    metadata:
+      name: mission
+      labels:
+        app: mission
+    spec:
+      containers:
+        - name: mission
+          image: docker.io/k03147/mission
+          imagePullPolicy: Always
+          env:
+            - name: PORT
+              value: "10004"
+          ports:
+            - name: port1
+              containerPort: 10004
+          resources:
+            requests:
+              cpu: 500m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 1024Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mission
+spec:
+  type: ClusterIP
+  selector:
+    app: mission
+  ports:
+    - name: mission
+      port: 10005
+      targetPort: 10004
+---
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: mission
+  namespace: this4
+data:
+  DB_SERVER: mysql
+  DB_PORT: "3306"
+  DB_NAME: "mydb"
+  TEST: a
+---
+
+kind: Secret
+apiVersion: v1
+metadata:
+  name: mission
+  namespace: this4
+type: Opaque
+data:
+  DB_missionNAME: am9hNQ==
+  DB_PASSWORD: UEBzc3cwcmQk
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mission
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: pocketmoney-mission.165.192.105.60.nip.io
+      http:
+        paths:
+          - path: /(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: mission
+                port: 
+                  number: 10004
+               
