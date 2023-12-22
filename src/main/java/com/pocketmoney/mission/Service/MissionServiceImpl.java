@@ -24,32 +24,32 @@ public class MissionServiceImpl implements MissionService {
     }
 
     @Override
-    public Mission selectMission(MissionIdDto missionId) throws Exception {
-        return missionDao.selectMission(missionId);
+    public Mission selectMission(int id) throws Exception {
+        return missionDao.selectMission(id);
     }
 
     @Override
     public Mission updateStatusS(MissionIdDto missionIdDto) throws Exception {
         missionDao.updateStatusS(missionIdDto);
-        Mission mission = missionDao.selectMission(missionIdDto);
+        Mission mission = missionDao.selectMission(missionIdDto.getId());
         return mission;
     }
     @Override
     public Mission updateStatusA(MissionIdDto missionIdDto) throws Exception {
         WebClientService wcs = new WebClientService();
-        Mission mission = missionDao.selectMission(missionIdDto);
+        Mission mission = missionDao.selectMission(missionIdDto.getId());
         int childId = mission.getChildId();
 		int parentId = wcs.getParentId(childId);
         int price = mission.getReward();
 		wcs.sendMoney(parentId, childId, price);
         missionDao.updateStatusA(missionIdDto);
-        mission = missionDao.selectMission(missionIdDto);
+        mission = missionDao.selectMission(missionIdDto.getId());
         return mission;
     }
     @Override
     public Mission updateStatusF(MissionIdDto missionIdDto) throws Exception {
         missionDao.updateStatusF(missionIdDto);
-        return missionDao.selectMission(missionIdDto);
+        return missionDao.selectMission(missionIdDto.getId());
     }
 
     @Override

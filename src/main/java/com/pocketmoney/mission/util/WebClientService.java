@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.pocketmoney.mission.model.RemittanceRequestDTO;
+import com.pocketmoney.mission.dto.RemittanceRequestDTO;
 
 public class WebClientService {
     public void sendMoney(int fromId, int toId, int price) {

@@ -5,7 +5,7 @@
         insert into missionDB.Mission
         (name, reward, childId) value (#{name}, #{reward}, #{childId});
     </insert>
-    <select id="selectMission" parameterType="com.pocketmoney.mission.dto.MissionIdDto" resultType="com.pocketmoney.mission.model.Mission">
+    <select id="selectMission" parameterType="int" resultType="com.pocketmoney.mission.model.Mission">
 			select
 				id,
                 name,

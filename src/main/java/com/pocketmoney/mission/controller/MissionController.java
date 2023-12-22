@@ -48,9 +48,9 @@ public class MissionController {
 	}
 
 	@ApiOperation(value = "미션 상세 조회")
-	@GetMapping(value = "{id}")
-	public ResponseEntity<Mission> getMissionById(@RequestBody MissionIdDto missionIdDto) throws Exception {
-		Mission mission = missionService.selectMission(missionIdDto);
+	@GetMapping(value = "{missionId}")
+	public ResponseEntity<Mission> getMissionById(@PathVariable int missionId) throws Exception {
+		Mission mission = missionService.selectMission(missionId);
 		return new ResponseEntity<Mission>(mission, HttpStatus.OK);
 	}
 
