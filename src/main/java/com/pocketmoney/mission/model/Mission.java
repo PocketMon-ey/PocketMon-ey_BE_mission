@@ -11,6 +11,7 @@ public class Mission {
 	private int childId;
 	private String createDate;
 	private String doneDate;
+	private String rejectReason;
 
 	public Mission(){
 		status = 0;

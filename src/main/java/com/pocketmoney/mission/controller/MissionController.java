@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.pocketmoney.mission.Service.MissionService;
+import com.pocketmoney.mission.dto.MissionDto;
+import com.pocketmoney.mission.dto.MissionIdDto;
+import com.pocketmoney.mission.dto.StatusDto;
 import com.pocketmoney.mission.model.Mission;
-import com.pocketmoney.mission.model.StatusParam;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,7 +36,7 @@ public class MissionController {
 	@ApiOperation(value = "전체 미션 조회")
 	@GetMapping(value={"/list/{childId}/{status}", "/list/{childId}"})
 	public ResponseEntity<List<Mission>> getAllMissions(@PathVariable int childId, @PathVariable(required = false) Integer status) throws Exception {
-		StatusParam statusParam = new StatusParam();
+		StatusDto statusParam = new StatusDto();
 		statusParam.setId(childId);
 		if (status != null) {
 			statusParam.setStatus(status);
@@ -47,45 +49,36 @@ public class MissionController {
 
 	@ApiOperation(value = "미션 상세 조회")
 	@GetMapping(value = "{id}")
-	public ResponseEntity<Mission> getMissionById(@PathVariable int id) throws Exception {
-		Mission mission = missionService.selectMission(id);
+	public ResponseEntity<Mission> getMissionById(@RequestBody MissionIdDto missionIdDto) throws Exception {
+		Mission mission = missionService.selectMission(missionIdDto);
 		return new ResponseEntity<Mission>(mission, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "미션 등록")
 	@PostMapping()
-	public ResponseEntity<Mission> addMission(@RequestBody Mission mission) throws Exception {
+	public ResponseEntity<Mission> addMission(@RequestBody MissionDto mission) throws Exception {
 		Mission ms = missionService.insertMission(mission);
 		return new ResponseEntity<Mission>(ms, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "미션 완료 요청")
-	@PutMapping(value = "/success/{id}")
-	public ResponseEntity<Integer> succcess(@PathVariable int id) throws Exception {
-		int res = missionService.updateStatusS(id);
-		if (res == 0) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		return new ResponseEntity<>(HttpStatus.OK);
+	@PutMapping(value = "/success")
+	public ResponseEntity<Mission> succcess(@RequestBody MissionIdDto missionIdDto) throws Exception {
+		Mission mission = missionService.updateStatusS(missionIdDto);
+		return new ResponseEntity<Mission>(mission, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "미션 완료 승인")
-	@PutMapping(value = "/approve/{id}")
-	public ResponseEntity<Integer> approve(@PathVariable int id) throws Exception {
-		int res = missionService.updateStatusA(id);
-		if (res == 0) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		return new ResponseEntity<>(HttpStatus.OK);
+	@PutMapping(value = "/approve")
+	public ResponseEntity<Mission> approve(@RequestBody MissionIdDto missionIdDto) throws Exception {
+		Mission mission = missionService.updateStatusA(missionIdDto);
+		return new ResponseEntity<Mission>(mission, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "미션 완료 거절")
-	@PutMapping(value = "/fail/{id}")
-	public ResponseEntity<Integer> fail(@PathVariable int id) throws Exception {
-		int res = missionService.updateStatusF(id);
-		if (res == 0) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		return new ResponseEntity<>(HttpStatus.OK);
+	@PutMapping(value = "/fail")
+	public ResponseEntity<Mission> fail(@RequestBody MissionIdDto missionIdDto) throws Exception {
+		Mission mission = missionService.updateStatusF(missionIdDto);
+		return new ResponseEntity<Mission>(mission, HttpStatus.OK);
 	}
 }

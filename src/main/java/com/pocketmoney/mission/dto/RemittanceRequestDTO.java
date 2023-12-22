@@ -1,4 +1,4 @@
-package com.pocketmoney.mission.model;
+package com.pocketmoney.mission.dto;
 
 import lombok.Data;
 
