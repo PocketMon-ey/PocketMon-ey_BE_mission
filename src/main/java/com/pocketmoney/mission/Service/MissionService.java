@@ -12,7 +12,8 @@ import com.pocketmoney.mission.model.*;
 
 @Service
 public interface MissionService {
-    List<Mission> selecAllMissions(StatusDto statusParam) throws Exception;
+    List<Mission> selectAllMissions(int childId) throws Exception;
+    List<Mission> selectAllMissionsByStatus(StatusDto statusParam) throws Exception;
     Mission selectMission(int id) throws Exception;
     Mission insertMission(MissionDto missionDto) throws Exception;
     Mission updateStatusS(MissionIdDto missionIdDto) throws Exception;

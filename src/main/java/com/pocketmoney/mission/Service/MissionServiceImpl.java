@@ -20,8 +20,13 @@ public class MissionServiceImpl implements MissionService {
     MissionDao missionDao;
 
     @Override
-    public List<Mission> selecAllMissions(StatusDto statusParam) throws Exception {
-        return missionDao.selecAllMissions(statusParam);
+    public List<Mission> selectAllMissions(int childId) throws Exception {
+        return missionDao.selectAllMissions(childId);
+    }
+
+    @Override
+    public List<Mission> selectAllMissionsByStatus(StatusDto statusParam) throws Exception {
+        return missionDao.selectAllMissionsByStatus(statusParam);
     }
 
     @Override
@@ -59,7 +64,7 @@ public class MissionServiceImpl implements MissionService {
         StatusDto statusParam = new StatusDto();
         statusParam.setId(mission.getChildId());
         statusParam.setStatus(0);
-        Mission returMission = missionDao.selecAllMissions(statusParam).get(0);
+        Mission returMission = missionDao.selectAllMissionsByStatus(statusParam).get(0);
         return returMission;
     }
     

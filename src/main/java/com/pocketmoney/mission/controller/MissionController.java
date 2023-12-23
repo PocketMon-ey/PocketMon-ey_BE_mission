@@ -35,16 +35,19 @@ public class MissionController {
 	private MissionService missionService;
 
 	@ApiOperation(value = "전체 미션 조회")
-	@GetMapping(value={"/list/{childId}/{status}", "/list/{childId}"})
-	public ResponseEntity<List<Mission>> getAllMissions(@PathVariable int childId, @PathVariable(required = false) Integer status) throws Exception {
+	@GetMapping(value={"/list/{childId}"})
+	public ResponseEntity<List<Mission>> getAllMissions(@PathVariable int childId) throws Exception {
+		List<Mission> missions = missionService.selectAllMissions(childId);
+		return new ResponseEntity<List<Mission>>(missions, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "상태별 미션 조회")
+	@GetMapping(value={"/list/{childId}/{status}"})
+	public ResponseEntity<List<Mission>> getAllMissions(@PathVariable int childId, @PathVariable int status) throws Exception {
 		StatusDto statusParam = new StatusDto();
 		statusParam.setId(childId);
-		if (status != null) {
-			statusParam.setStatus(status);
-		}else{
-			status = 0;
-		}
-		List<Mission> missions = missionService.selecAllMissions(statusParam);
+		statusParam.setStatus(status);
+		List<Mission> missions = missionService.selectAllMissionsByStatus(statusParam);
 		return new ResponseEntity<List<Mission>>(missions, HttpStatus.OK);
 	}
 

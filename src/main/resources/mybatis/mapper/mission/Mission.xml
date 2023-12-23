@@ -18,7 +18,7 @@
 			from missionDB.Mission
             where id = #{id};
 	</select>
-    <select id="selecAllMissions" parameterType="com.pocketmoney.mission.dto.StatusDto" resultType="com.pocketmoney.mission.model.Mission">
+    <select id="selectAllMissionsByStatus" parameterType="com.pocketmoney.mission.dto.StatusDto" resultType="com.pocketmoney.mission.model.Mission">
 			select
 				id,
                 name,
@@ -35,6 +35,19 @@
             <if test="status == 2 or status == 3">
                 and status > 1
             </if>
+            ORDER BY createDate DESC, id DESC;
+	</select>
+    <select id="selectAllMissions" parameterType="int" resultType="com.pocketmoney.mission.model.Mission">
+			select
+				id,
+                name,
+                reward,
+                status,
+                childId,
+                DATE_FORMAT(createDate, '%y.%m.%d') AS createDate,
+                DATE_FORMAT(doneDate, '%y.%m.%d') AS doneDate
+			from missionDB.Mission
+			WHERE childId = #{id}
             ORDER BY createDate DESC, id DESC;
 	</select>
 	<update id="updateStatusS" parameterType="com.pocketmoney.mission.dto.StatusDto">

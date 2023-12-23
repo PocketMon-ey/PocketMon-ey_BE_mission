@@ -13,7 +13,8 @@ import com.pocketmoney.mission.model.Mission;
 
 @Mapper
 public interface MissionDao {
-    List<Mission> selecAllMissions(StatusDto statusParam) throws SQLException;
+    List<Mission> selectAllMissions(int childId) throws SQLException;
+    List<Mission> selectAllMissionsByStatus(StatusDto statusParam) throws SQLException;
     Mission selectMission(int id) throws SQLException;
     int insertMission(MissionDto missionDto) throws SQLException;
     int updateStatusS(MissionIdDto missionIdDto) throws SQLException;
