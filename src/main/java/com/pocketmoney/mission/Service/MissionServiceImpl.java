@@ -44,18 +44,20 @@ public class MissionServiceImpl implements MissionService {
         Mission mission = missionDao.selectMission(missionIdDto.getId());
         return mission;
     }
+
     @Override
     public Mission updateStatusA(MissionIdDto missionIdDto) throws Exception {
         WebClientService wcs = new WebClientService();
         Mission mission = missionDao.selectMission(missionIdDto.getId());
         int childId = mission.getChildId();
-		int parentId = wcs.getParentId(childId);
+        int parentId = wcs.getParentId(childId);
         int price = mission.getReward();
-		wcs.sendMoney(parentId, childId, price);
+        wcs.sendMoney(parentId, childId, price);
         missionDao.updateStatusA(missionIdDto);
         mission = missionDao.selectMission(missionIdDto.getId());
         return mission;
     }
+
     @Override
     public Mission updateStatusF(RejectDto rejectDto) throws Exception {
         missionDao.updateStatusF(rejectDto);
@@ -80,21 +82,23 @@ public class MissionServiceImpl implements MissionService {
         int rejectCnt = 0;
         for (MissionStatusDto ms : missionStatusDto) {
             if (ms.getStatus() == 0) {
-                addCnt+=ms.getCnt();
-            }else if (ms.getStatus() == 2) {
-                approveCnt+=ms.getCnt();
-            }else if (ms.getStatus()==3) {
-                rejectCnt+=ms.getCnt();
+                addCnt += ms.getCnt();
+            } else if (ms.getStatus() == 2) {
+                approveCnt += ms.getCnt();
+            } else if (ms.getStatus() == 3) {
+                rejectCnt += ms.getCnt();
             }
-            addCnt+=ms.getCnt();
+            addCnt += ms.getCnt();
         }
         CreditRateDto creditRateDto = new CreditRateDto();
-        int cr = 500-(addCnt*20)-(rejectCnt*40)+(approveCnt*50);
+        int cr = 500 - (addCnt * 20) - (rejectCnt * 40) + (approveCnt * 50);
         if (cr < 0) {
-            creditRateDto.setCreditRate(0);;
-        }else if(cr > 1000){
-            creditRateDto.setCreditRate(1000);;
-        }else{
+            creditRateDto.setCreditRate(0);
+            ;
+        } else if (cr > 1000) {
+            creditRateDto.setCreditRate(1000);
+            ;
+        } else {
             creditRateDto.setCreditRate(cr);
         }
         return creditRateDto;
@@ -107,16 +111,20 @@ public class MissionServiceImpl implements MissionService {
         int addCnt = 0;
         for (MissionStatusDto ms : missionStatusDto) {
             if (ms.getStatus() == 0) {
-                addCnt+=ms.getCnt();
-            }else if (ms.getStatus() == 2) {
-                approveCnt+=ms.getCnt();
+                addCnt += ms.getCnt();
+            } else if (ms.getStatus() == 2) {
+                approveCnt += ms.getCnt();
             }
-            addCnt+=ms.getCnt();
+            addCnt += ms.getCnt();
         }
         AchievementRateDto achievementRateDto = new AchievementRateDto();
-        int ar = Math.round(approveCnt/addCnt*100);
-        achievementRateDto.setAchievementRate(ar);
+        if (addCnt == 0) {
+            achievementRateDto.setAchievementRate(0);
+        } else {
+            int ar = Math.round(approveCnt / addCnt * 100);
+            achievementRateDto.setAchievementRate(ar);
+        }
         return achievementRateDto;
     }
-    
+
 }
