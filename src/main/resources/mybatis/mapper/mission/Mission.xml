@@ -37,6 +37,15 @@
             </if>
             ORDER BY createDate DESC, id DESC;
 	</select>
+    <select id="selectStatus" parameterType="int" resultType="com.pocketmoney.mission.dto.MissionStatusDto">
+        select
+            status,
+            count(status) as cnt,
+            childId
+        from missionDB.Mission
+        group by status, childId
+        HAVING childId = #{id};
+    </select>
     <select id="selectAllMissions" parameterType="int" resultType="com.pocketmoney.mission.model.Mission">
 			select
 				id,

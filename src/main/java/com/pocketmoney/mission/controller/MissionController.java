@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.pocketmoney.mission.Service.MissionService;
+import com.pocketmoney.mission.dto.AchievementRateDto;
+import com.pocketmoney.mission.dto.CreditRateDto;
 import com.pocketmoney.mission.dto.MissionDto;
 import com.pocketmoney.mission.dto.MissionIdDto;
+import com.pocketmoney.mission.dto.MissionStatusDto;
 import com.pocketmoney.mission.dto.RejectDto;
 import com.pocketmoney.mission.dto.StatusDto;
 import com.pocketmoney.mission.model.Mission;
@@ -56,6 +59,20 @@ public class MissionController {
 	public ResponseEntity<Mission> getMissionById(@PathVariable int missionId) throws Exception {
 		Mission mission = missionService.selectMission(missionId);
 		return new ResponseEntity<Mission>(mission, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "신용도 조회")
+	@GetMapping(value = "/credit/{childId}")
+	public ResponseEntity<CreditRateDto> getCreditRate(@PathVariable int childId) throws Exception {
+		CreditRateDto creditRateDto = missionService.selectCreditRate(childId);
+		return new ResponseEntity<CreditRateDto>(creditRateDto, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "미션 달성률 조회")
+	@GetMapping(value = "/achieve/{childId}")
+	public ResponseEntity<AchievementRateDto> getAchievementRate(@PathVariable int childId) throws Exception {
+		AchievementRateDto achievementRateDto = missionService.selectAchievementRate(childId);
+		return new ResponseEntity<AchievementRateDto>(achievementRateDto, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "미션 등록")
