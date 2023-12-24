@@ -25,6 +25,7 @@
                 reward,
                 status,
                 childId,
+                rejectReason,
                 DATE_FORMAT(createDate, '%y.%m.%d') AS createDate,
                 DATE_FORMAT(doneDate, '%y.%m.%d') AS doneDate
 			from missionDB.Mission
