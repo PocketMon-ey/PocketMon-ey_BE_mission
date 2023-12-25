@@ -121,7 +121,7 @@ public class MissionServiceImpl implements MissionService {
         if (addCnt == 0) {
             achievementRateDto.setAchievementRate(0);
         } else {
-            int ar = Math.round(approveCnt / addCnt * 100);
+            int ar = Math.round(approveCnt * 100 / addCnt);
             achievementRateDto.setAchievementRate(ar);
         }
         return achievementRateDto;
