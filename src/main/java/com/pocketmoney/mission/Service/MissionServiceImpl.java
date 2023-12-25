@@ -81,9 +81,7 @@ public class MissionServiceImpl implements MissionService {
         int addCnt = 0;
         int rejectCnt = 0;
         for (MissionStatusDto ms : missionStatusDto) {
-            if (ms.getStatus() == 0) {
-                addCnt += ms.getCnt();
-            } else if (ms.getStatus() == 2) {
+            if (ms.getStatus() == 2) {
                 approveCnt += ms.getCnt();
             } else if (ms.getStatus() == 3) {
                 rejectCnt += ms.getCnt();
@@ -110,9 +108,7 @@ public class MissionServiceImpl implements MissionService {
         int approveCnt = 0;
         int addCnt = 0;
         for (MissionStatusDto ms : missionStatusDto) {
-            if (ms.getStatus() == 0) {
-                addCnt += ms.getCnt();
-            } else if (ms.getStatus() == 2) {
+            if (ms.getStatus() == 2) {
                 approveCnt += ms.getCnt();
             }
             addCnt += ms.getCnt();
